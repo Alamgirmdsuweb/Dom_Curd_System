@@ -1,0 +1,73 @@
+et container = document.getElementById("container");
+let url = "https://jsonplaceholder.typicode.com/users";
+// table create
+let tableNedit = document.createElement("div");
+tableNedit.setAttribute("class", "table-edit");
+container.appendChild(tableNedit);
+
+let tableDiv = document.createElement("div");
+tableDiv.setAttribute("class", "user-table");
+let table1 = document.createElement("table");
+table1.setAttribute("class", "table");
+table1.setAttribute("id", "data");
+
+let thead = document.createElement("thead");
+let tbody = document.createElement("tbody");
+tbody.setAttribute("id", "tbody");
+tableNedit.appendChild(tableDiv);
+table1.appendChild(thead);
+table1.appendChild(tbody);
+tableDiv.appendChild(table1);
+let vl = document.createElement("span");
+vl.setAttribute("class", "user-table");
+vl.id = "vl";
+tableNedit.appendChild(vl);
+let breakLine = document.createElement("br");
+let horizontalLine = document.createElement("hr");
+
+let row_ = document.createElement("tr");
+row_.className = "row";
+let userListHeading = document.createElement("th");
+let newUserHeading = document.createElement("th");
+userListHeading.setAttribute("colspan", "2");
+newUserHeading.setAttribute("colspan", "4");
+userListHeading.className = "userListHeading";
+newUserHeading.className = "newUserHeading";
+userListHeading.innerHTML = "User List";
+let row_1 = document.createElement("tr");
+let heading_1 = document.createElement("th");
+heading_1.setAttribute("scope", "col");
+heading_1.innerHTML = "ID";
+let heading_2 = document.createElement("th");
+heading_2.setAttribute("scope", "col");
+heading_2.innerHTML = "Name";
+let heading_3 = document.createElement("th");
+heading_3.setAttribute("scope", "col");
+heading_3.innerHTML = "Email";
+let heading_4 = document.createElement("th");
+heading_4.setAttribute("scope", "col");
+heading_4.innerHTML = "Address";
+let heading_5 = document.createElement("th");
+heading_5.setAttribute("scope", "col");
+heading_5.setAttribute("colspan", "2");
+heading_5.innerHTML = "Actions";
+row_1.appendChild(heading_1);
+row_1.appendChild(heading_2);
+row_1.appendChild(heading_3);
+row_1.appendChild(heading_4);
+row_1.appendChild(heading_5);
+row_.appendChild(userListHeading);
+
+row_.appendChild(newUserHeading);
+thead.appendChild(row_);
+thead.appendChild(row_1);
+newUserHeading.className = "newUserHeading";
+row_.className = "row";
+
+let newBtn = document.createElement("button");
+
+newBtn.innerText = "+ New";
+newBtn.className = "newBtn";
+newBtn.id = "newBtn";
+
+newUserHeading.appendChild(newBtn);
