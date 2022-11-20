@@ -1,224 +1,426 @@
 const body = document.body;
+let url = "https://jsonplaceholder.typicode.com/users";
 
-const Table_side = document.createElement("div");
-Table_side.setAttribute("class", "Container");
-body.append(Table_side);
+let dataForTable = [];
+let num = "";
+let editId = "";
 
-const Table_list = document.createElement("div");
-Table_list.setAttribute("class", "create");
-body.append(Table_list);
-let table1 = document.createElement("table");
-table1.setAttribute("class", "table");
-table1.setAttribute("id", "table");
+let Container;
+let validationSide;
+let EditSide;
+let EditForm;
+let EditSideText;
+let deleteSide;
+let TableSide;
+let AddDetails;
+function ContainerSide() {
+    Container = document.createElement("div");
+    Container.setAttribute("class", "Container");
+    body.append(Container);
+}
+ContainerSide();
 
-let thead = document.createElement("thead");
-let tbody = document.createElement("tbody");
+function validation() {
+    validationSide = document.createElement("div");
+    validationSide.setAttribute("class", "verticalLine");
+    Container.appendChild(validationSide);
+}
+validation();
 
-tbody.setAttribute("id", "Tdshow");
-Table_side.appendChild(Table_list);
-table1.appendChild(thead);
-table1.appendChild(tbody);
-Table_list.appendChild(table1);
+//   <!-- Edit details side -->
 
-let vla = document.createElement("span");
-vla.setAttribute("class", "verticalLine");
-vla.id = "vl";
-Table_side.appendChild(vla);
+function EditDetailsSide() {
+    EditSide = document.createElement("div");
+    EditSide.className = "EditDetails";
+    EditSide.id = "Edit";
+    Container.append(EditSide);
 
-let row_ = document.createElement("tr");
-row_.className = "row";
-let userListHeading = document.createElement("th");
-let newUserHeading = document.createElement("th");
-userListHeading.setAttribute("colspan", "2");
-newUserHeading.setAttribute("colspan", "4");
-userListHeading.className = "userListHeading";
-newUserHeading.className = "newUserHeading";
-userListHeading.innerHTML = "User List";
+    EditSideText = document.createElement("span");
+    EditSideText.className = "title";
+    EditSideText.innerText = "Edit details";
+    EditSide.append(EditSideText);
 
-let row_1 = document.createElement("tr");
-let heading_1 = document.createElement("th");
-heading_1.setAttribute("scope", "col");
-heading_1.innerHTML = "ID";
+    const EditInputField = document.createElement("div");
+    EditInputField.className = "inputFileBox";
+    EditSide.append(EditInputField);
 
-let heading_2 = document.createElement("th");
-heading_2.setAttribute("scope", "col");
-heading_2.innerHTML = "Name";
+    EditForm = document.createElement("form");
+    EditForm.id = "editside";
+    EditInputField.append(EditForm);
 
-let heading_3 = document.createElement("th");
-heading_3.setAttribute("scope", "col");
-heading_3.innerHTML = "Email";
+    const EditFieldName = document.createElement("label");
+    EditFieldName.innerText = "Name:";
+    EditForm.append(EditFieldName);
 
-let heading_4 = document.createElement("th");
-heading_4.setAttribute("scope", "col");
-heading_4.innerHTML = "Address";
+    const lineBr = document.createElement("br");
+    EditFieldName.append(lineBr);
 
-let heading_5 = document.createElement("th");
-heading_5.setAttribute("scope", "col");
-heading_5.setAttribute("colspan", "2");
-heading_5.innerHTML = "Actions";
+    const EditN = document.createElement("div");
+    EditN.className = "addName";
+    EditForm.append(EditN);
 
-row_1.appendChild(heading_1);
-row_1.appendChild(heading_2);
-row_1.appendChild(heading_3);
-row_1.appendChild(heading_4);
-row_1.appendChild(heading_5);
-row_.appendChild(userListHeading);
+    const EditInputName = document.createElement("input");
+    EditInputName.className = "Name";
+    EditInputName.id = "iName";
+    EditInputName.type = "text";
+    EditInputName.name = "";
+    EditInputName.placeholder = "Enter your name....";
+    EditInputName.value = "";
+    EditInputName.autocomplete = "off";
+    EditInputName.onkeyup = EditvalidName;
+    EditN.append(EditInputName);
 
-row_.appendChild(newUserHeading);
-thead.appendChild(row_);
-thead.appendChild(row_1);
-newUserHeading.className = "newUserHeading";
-row_.className = "row";
+    const EditErrNa = document.createElement("span");
+    EditErrNa.className = "EditnameErr";
+    EditErrNa.id = "EditnameErr";
+    EditN.append(EditErrNa);
 
-let newBtn = document.createElement("button");
+    const EditErrNaBr = document.createElement("br");
+    EditErrNa.append(EditErrNaBr);
 
-newBtn.innerText = "+ New";
-newBtn.className = "new";
-newBtn.id = "new";
+    // // Edit Email
 
-newUserHeading.appendChild(newBtn);
+    const EditSidelable = document.createElement("label");
+    EditSidelable.innerText = "Email:";
+    EditForm.append(EditSidelable);
+
+    const EditEmailBr = document.createElement("br");
+    EditForm.append(EditEmailBr);
+
+    const EditAddEmail = document.createElement("div");
+    EditAddEmail.className = "AddEmail";
+    EditForm.append(EditAddEmail);
+
+    const EditAddEm = document.createElement("input");
+    EditAddEm.className = "Email";
+    EditAddEm.id = "iEmail";
+    EditAddEm.type = "email";
+    EditAddEm.placeholder = "Enter Your Email..";
+    EditAddEm.name = "email";
+    EditAddEm.value = "";
+    EditAddEm.onkeyup = EditvalidEmail;
+    EditAddEmail.append(EditAddEm);
+
+    const EditEmError = document.createElement("span");
+    EditEmError.className = "EditemailErr";
+    EditEmError.id = "EditemailErr";
+    EditAddEmail.append(EditEmError);
+
+    const EditEmailB = document.createElement("br");
+    EditAddEmail.append(EditEmailB);
+
+    // // Edit Address
+
+    const EditAddrside = document.createElement("label");
+    EditAddrside.innerText = "Address:";
+    EditForm.append(EditAddrside);
+
+    const EditAddrsideBr = document.createElement("br");
+    EditForm.append(EditAddrsideBr);
+
+    const EditAddAddr = document.createElement("div");
+    EditAddAddr.className = "addAddress";
+    EditForm.append(EditAddAddr);
+
+    const EditAddAddrForm = document.createElement("form");
+    EditAddAddr.append(EditAddAddrForm);
+
+    const EditAddAddrTextAre = document.createElement("textarea");
+    EditAddAddrTextAre.className = "size";
+    EditAddAddrTextAre.id = "textarea";
+    EditAddAddrTextAre.name = "textarea";
+    EditAddAddrTextAre.onkeyup = EditvalidAddress;
+    EditAddAddrForm.append(EditAddAddrTextAre);
+
+    const EditAddAddErr = document.createElement("span");
+    EditAddAddErr.className = "EditAddressErr";
+    EditAddAddErr.id = "EditAddressErr";
+    EditAddAddrForm.append(EditAddAddErr);
+}
+EditDetailsSide();
+// Edit condition side
+
+function EditDetailesCondition() {
+    const EditConditionSide = document.createElement("span");
+    EditForm.append(EditConditionSide);
+
+    const EditConditionbutton = document.createElement("button");
+    EditConditionbutton.className = "Update";
+    EditConditionbutton.id = "update";
+    EditConditionbutton.onclick = updateValue;
+    EditConditionbutton.innerText = "Update";
+    EditConditionSide.append(EditConditionbutton);
+
+    const EditConditionReset = document.createElement("span");
+    EditConditionSide.append(EditConditionReset);
+
+    const EditConditionbuttonReset = document.createElement("button");
+    EditConditionbuttonReset.className = "Reset";
+    EditConditionbuttonReset.id = "reset";
+    EditConditionbuttonReset.onclick = ResetValue;
+    EditConditionbuttonReset.innerText = "Reset";
+    EditConditionReset.append(EditConditionbuttonReset);
+
+    const EditSideErr = document.createElement("span");
+    EditSideErr.className = "updateErr";
+    EditSideErr.id = "updateError";
+    EditSide.append(EditSideErr);
+}
+EditDetailesCondition();
+
+//  <!-- delete Button pup up -->
+function ConditionButton() {
+    deleteSide = document.createElement("div");
+    deleteSide.className = "deletePupUp";
+    deleteSide.id = "delete";
+    EditSide.append(deleteSide);
+}
+ConditionButton();
+
+function ConditionButtonSide() {
+    const deleteSpan = document.createElement("span");
+    deleteSide.append(deleteSpan);
+
+    const deleteIcons = document.createElement("i");
+    deleteIcons.className = "fa-solid fa-circle-xmark";
+    deleteIcons.id = "cl";
+    deleteIcons.onclick = removeIcon;
+    deleteSpan.append(deleteIcons);
+
+    const deleteText = document.createElement("p");
+    deleteText.innerText = "Are you sure ?";
+    deleteSide.append(deleteText);
+
+    const deleteBtnCondition = document.createElement("div");
+    deleteBtnCondition.className = "deletebtnCondition";
+    deleteSide.append(deleteBtnCondition);
+
+    const deleteBtnConditionSpan = document.createElement("span");
+    deleteBtnCondition.append(deleteBtnConditionSpan);
+
+    let buttonSideNo = document.createElement("button");
+    buttonSideNo.className = "No";
+    buttonSideNo.onclick = No;
+    buttonSideNo.innerText = "NO";
+    deleteBtnConditionSpan.append(buttonSideNo);
+
+    let buttonSideYes = document.createElement("button");
+    buttonSideYes.className = "YES";
+    buttonSideYes.id = "yes";
+    buttonSideYes.type = "yes";
+    buttonSideYes.onclick = deletConfirm;
+    buttonSideYes.innerText = "YES";
+    deleteBtnConditionSpan.append(buttonSideYes);
+}
+ConditionButtonSide();
 
 
 
+function CreatetableSide() {
+    TableSide = document.createElement("div");
+    TableSide.className = "create";
+    Container.append(TableSide);
+}
+CreatetableSide();
+
+function Table() {
+    const TableCreate = document.createElement("table");
+    TableCreate.className = "table";
+    TableCreate.id = "table";
+    TableSide.append(TableCreate);
+
+    const thead = document.createElement("th");
+    thead.setAttribute("colspan", "2");
+    thead.innerText = " UserList";
+    thead.className = "TextSize";
+    TableCreate.append(thead);
+
+    const Thead = document.createElement("th");
+    Thead.setAttribute("colspan", "4");
+    TableCreate.append(Thead);
+
+    const CreateSpan = document.createElement("span");
+    CreateSpan.className = "Newbtn";
+
+    Thead.append(CreateSpan);
+    const CreateSpanBtn = document.createElement("button");
+    CreateSpanBtn.className = "new";
+    CreateSpanBtn.id = "new";
+    CreateSpanBtn.type = "button";
+    CreateSpanBtn.onclick = NewOpenPopup;
+    CreateSpanBtn.innerText = "+ New";
+    CreateSpan.append(CreateSpanBtn);
+
+    const CreateTableData = document.createElement("tr");
+    CreateTableData.className = "createTable";
+    CreateTableData.id = "createTable";
+    TableCreate.append(CreateTableData);
+
+    const Heading1 = document.createElement("th");
+    Heading1.innerText = "ID";
+    CreateTableData.append(Heading1);
+
+    const Heading2 = document.createElement("th");
+    Heading2.innerText = "Name";
+    CreateTableData.append(Heading2);
+
+    const Heading3 = document.createElement("th");
+    Heading3.innerText = "Email";
+    CreateTableData.append(Heading3);
+
+    const Heading4 = document.createElement("th");
+    Heading4.innerText = "Address";
+    CreateTableData.append(Heading4);
+
+    const Heading5 = document.createElement("th");
+    Heading5.setAttribute("colspan", "2");
+    Heading5.innerText = "Action";
+    CreateTableData.append(Heading5);
+
+    const TableShow = document.createElement("tbody");
+    TableShow.id = "Tdshow";
+    TableCreate.append(TableShow);
+}
+Table();
 
 // Add details side
 
-const AddDetails = document.createElement("div");
-AddDetails.className = "modal1";
-AddDetails.id = "modal1";
+function AddDetailsSide() {
+    AddDetails = document.createElement("div");
+    AddDetails.className = "modal1";
+    AddDetails.id = "modal1";
 
-const AddDetailsTitel = document.createElement("div");
-AddDetailsTitel.className = "title";
-Table_side.append(AddDetails);
-AddDetails.append(AddDetailsTitel);
-const AddDetailsText = document.createElement("p");
-AddDetailsText.innerText = "ADD details";
-AddDetailsTitel.append(AddDetailsText);
+    const AddDetailsTitel = document.createElement("div");
+    AddDetailsTitel.className = "title";
+    Container.append(AddDetails);
+    AddDetails.append(AddDetailsTitel);
+    const AddDetailsText = document.createElement("p");
+    AddDetailsText.innerText = "ADD details";
+    AddDetailsTitel.append(AddDetailsText);
 
-const AddDetailsText1 = document.createElement("span");
-AddDetailsText1.className = "close";
+    const AddDetailsText1 = document.createElement("span");
+    AddDetailsText1.className = "close";
 
-AddDetails.append(AddDetailsText1);
+    AddDetails.append(AddDetailsText1);
 
-const AddDetailsIcons = document.createElement("i");
-AddDetailsIcons.className = "fa-solid fa-circle-xmark";
-AddDetailsIcons.id = "close";
-AddDetailsIcons.onclick = closePopup;
-AddDetailsText.append(AddDetailsIcons);
+    const AddDetailsIcons = document.createElement("i");
+    AddDetailsIcons.className = "fa-solid fa-circle-xmark";
+    AddDetailsIcons.id = "close";
+    AddDetailsIcons.onclick = closePopup;
+    AddDetailsText.append(AddDetailsIcons);
+}
+AddDetailsSide();
 
 //input field
+function AddDetailsInputSide() {
+    const AddDetailsInputFile = document.createElement("div");
 
-const AddDetailsInputFile = document.createElement("div");
+    AddDetailsInputFile.className = "inputFile";
+    AddDetailsInputFile.id = "inputFile";
+    AddDetails.append(AddDetailsInputFile);
 
-AddDetailsInputFile.className = "inputFile";
-AddDetailsInputFile.id = "inputFile";
-AddDetails.append(AddDetailsInputFile);
+    const AddDetailsName = document.createElement("label");
+    AddDetailsName.innerText = "Name:";
 
-const AddDetailsName = document.createElement("label");
-AddDetailsName.innerText = "Name:";
+    AddDetailsInputFile.append(AddDetailsName);
+    const AddDetailsBreak = document.createElement("br");
+    AddDetailsName.append(AddDetailsBreak);
 
-AddDetailsInputFile.append(AddDetailsName);
-const AddDetailsBreak = document.createElement("br");
-AddDetailsName.append(AddDetailsBreak);
+    const AddDetailsinput = document.createElement("input");
+    AddDetailsinput.id = "inputName";
+    AddDetailsinput.type = "text";
+    AddDetailsinput.name = "name";
+    AddDetailsinput.placeholder = "Enter your name";
+    AddDetailsinput.autocomplete = "off";
+    AddDetailsinput.onkeyup = AddvalidateName;
+    AddDetailsName.append(AddDetailsinput);
 
-const AddDetailsinput = document.createElement("input");
-AddDetailsinput.id = "inputName";
-AddDetailsinput.type = "text";
-AddDetailsinput.name = "name";
-AddDetailsinput.placeholder = "Enter your name";
-AddDetailsinput.autocomplete = "off";
-AddDetailsinput.onkeyup = AddvalidateName;
-AddDetailsName.append(AddDetailsinput);
+    const AddDetailsErr = document.createElement("span");
+    AddDetailsErr.id = "nameErr";
+    AddDetailsInputFile.append(AddDetailsErr);
 
-const AddDetailsErr = document.createElement("span");
-AddDetailsErr.id = "nameErr";
-AddDetailsInputFile.append(AddDetailsErr);
+    // Email
 
-// Email
+    const AddDetailsInputField = document.createElement("div");
+    AddDetailsInputField.className = "inputFile";
+    AddDetailsInputField.id = "inputFile";
+    AddDetails.append(AddDetailsInputField);
 
-const AddDetailsInputField = document.createElement("div");
-AddDetailsInputField.className = "inputFile";
-AddDetailsInputField.id = "inputFile";
-AddDetails.append(AddDetailsInputField);
+    const AddDetailsinput2 = document.createElement("label");
+    AddDetailsinput2.innerText = "Email:";
+    AddDetailsInputField.append(AddDetailsinput2);
 
-const AddDetailsinput2 = document.createElement("label");
-AddDetailsinput2.innerText = "Email:";
-AddDetailsInputField.append(AddDetailsinput2);
+    const Break = document.createElement("br");
+    AddDetailsinput2.append(Break);
 
-const Break = document.createElement("br");
-AddDetailsinput2.append(Break);
+    const EmailInput = document.createElement("input");
+    EmailInput.id = "inputEmail";
+    EmailInput.type = "email";
+    EmailInput.name = "email";
+    EmailInput.placeholder = "Enter Your Email..";
 
-const EmailInput = document.createElement("input");
-EmailInput.id = "inputEmail";
-EmailInput.type = "email";
-EmailInput.name = "email";
-EmailInput.placeholder = "Enter Your Email..";
-EmailInput.onkeyup = AddvalidateEmail;
-AddDetailsinput2.append(EmailInput);
+    EmailInput.onkeyup = AddvalidateEmail;
 
-const AddEmailErr = document.createElement("span");
-AddEmailErr.id = "emailErr";
-AddDetailsInputField.append(AddEmailErr);
+    AddDetailsinput2.append(EmailInput);
 
-// AddDetailsAddress
+    const AddEmailErr = document.createElement("span");
+    AddEmailErr.id = "emailErr";
+    AddDetailsInputField.append(AddEmailErr);
 
-const AddDetailsInputField2 = document.createElement("div");
-AddDetailsInputField2.className = "inputFile";
-AddDetailsInputField2.id = "inputFile";
-AddDetails.append(AddDetailsInputField2);
+    // AddDetailsAddress
 
-const AddDetailsAddr = document.createElement("label");
-AddDetailsAddr.innerText = "Address:";
-AddDetailsInputField2.append(AddDetailsAddr);
+    const AddDetailsInputField2 = document.createElement("div");
+    AddDetailsInputField2.className = "inputFile";
+    AddDetailsInputField2.id = "inputFile";
+    AddDetails.append(AddDetailsInputField2);
 
-const Br = document.createElement("br");
-AddDetailsAddr.append(Br);
+    const AddDetailsAddr = document.createElement("label");
+    AddDetailsAddr.innerText = "Address:";
+    AddDetailsInputField2.append(AddDetailsAddr);
 
-const addDetailstext = document.createElement("textarea");
-addDetailstext.className = "size";
-addDetailstext.id = "inputField";
-addDetailstext.name = "inputField";
-addDetailstext.onkeyup = AddvalidateAddress;
-AddDetailsAddr.append(addDetailstext);
+    const Br = document.createElement("br");
+    AddDetailsAddr.append(Br);
 
-const addressErr = document.createElement("span");
-addressErr.id = "AddressErr";
-AddDetailsInputField2.append(addressErr);
+    const addDetailstext = document.createElement("textarea");
+    addDetailstext.className = "size";
+    addDetailstext.id = "inputField";
+    addDetailstext.name = "inputField";
+    addDetailstext.onkeyup = AddvalidateAddress;
+    AddDetailsAddr.append(addDetailstext);
 
-const AddDetailsCondition = document.createElement("div");
-AddDetailsCondition.className = "newADD";
-AddDetails.append(AddDetailsCondition);
+    const addressErr = document.createElement("span");
+    addressErr.id = "AddressErr";
+    AddDetailsInputField2.append(addressErr);
 
-const ConditionBtn = document.createElement("button");
-ConditionBtn.className = "CancleBtn";
-ConditionBtn.id = "cancelbtn";
-ConditionBtn.type = "button";
-ConditionBtn.onclick = Cancel;
-ConditionBtn.innerText = "Cancel";
-AddDetailsCondition.append(ConditionBtn);
+    const AddDetailsCondition = document.createElement("div");
+    AddDetailsCondition.className = "newADD";
+    AddDetails.append(AddDetailsCondition);
 
-const ConditionBtnspan = document.createElement("span");
-AddDetailsCondition.append(ConditionBtnspan);
+    const ConditionBtn = document.createElement("button");
+    ConditionBtn.className = "CancleBtn";
+    ConditionBtn.id = "cancelbtn";
+    ConditionBtn.type = "button";
+    ConditionBtn.onclick = Cancel;
+    ConditionBtn.innerText = "Cancel";
+    AddDetailsCondition.append(ConditionBtn);
 
-const ConditionBtnSave = document.createElement("button");
-ConditionBtnSave.className = "dataSave";
-ConditionBtnSave.id = "save";
-ConditionBtnSave.type = "button";
-ConditionBtnSave.onclick = Save;
-ConditionBtnSave.innerText = "save";
-ConditionBtnspan.append(ConditionBtnSave);
+    const ConditionBtnspan = document.createElement("span");
+    AddDetailsCondition.append(ConditionBtnspan);
 
-const submit = document.createElement("span");
-submit.className = "submitErr";
-submit.id = "submitErr";
-AddDetails.append(submit);
+    const ConditionBtnSave = document.createElement("button");
+    ConditionBtnSave.className = "dataSave";
+    ConditionBtnSave.id = "save";
+    ConditionBtnSave.type = "button";
+    ConditionBtnSave.onclick = Save;
+    ConditionBtnSave.innerText = "save";
+    ConditionBtnspan.append(ConditionBtnSave);
 
-
-
-
-
-
-
+    const submit = document.createElement("span");
+    submit.className = "submitErr";
+    submit.id = "submitErr";
+    AddDetails.append(submit);
+}
+AddDetailsInputSide();
 
 // container
 
@@ -226,9 +428,6 @@ const modal = document.getElementById("modal1");
 const btn = document.getElementById("new");
 const inputFile = document.getElementById("inputFile");
 const dltPupup = document.getElementById("delete");
-const deletRow = document.getElementById("deleteRow");
-const NewAdd = document.getElementById("NewAdd");
-const cancel = document.getElementById("cancelbtn");
 const SaveData = document.getElementById("save");
 // Edit details
 const field = document.getElementById("inputFile");
@@ -237,28 +436,23 @@ const addEmail = document.getElementById("inputEmail");
 const addAddr = document.getElementById("inputField");
 
 // edit details
-const iName = document.getElementById("iName");
-const iEmail = document.getElementById("iEmail");
+const iName1 = document.getElementById("iName");
+const iEmail1 = document.getElementById("iEmail");
 const textarea = document.getElementById("textarea");
 const updateEr = document.getElementById("updateError");
 const EditnameErr = document.getElementById("EditnameErr");
-const EditemailErr = document.getElementById("EditemailErr");
+const EditemailError = document.getElementById("EditemailErr");
 const EditAddressErr = document.getElementById("EditAddressErr");
 //  add details validation
 const nameErr = document.getElementById("nameErr");
 const emailErr = document.getElementById("emailErr");
 const submitErr = document.getElementById("submitErr");
 const AddressErr = document.getElementById("AddressErr");
-
 const UserName = document.getElementById("inputName");
 const Email = document.getElementById("inputEmail");
 const textArea = document.getElementById("inputField");
 
-let url = "https://jsonplaceholder.typicode.com/users";
 
-let dataForTable = [];
-let num = "";
-let editId = "";
 
 const buildTable = (data) => {
     let tableData = "";
@@ -289,14 +483,15 @@ window.onload = function () {
             dataForTable = objectData;
             let ApiobjectData = dataForTable.find((item, i) => i == 0);
             if (ApiobjectData) {
+                
                 editId = 1;
                 // onload first row show  in edit details
 
                 buildTable(dataForTable);
 
-                iName.value = ApiobjectData.name;
+                iName1.value = ApiobjectData.name;
 
-                iEmail.value = ApiobjectData.email;
+                iEmail1.value = ApiobjectData.email;
 
                 textarea.value = ApiobjectData.address.city;
             } else {
@@ -305,18 +500,11 @@ window.onload = function () {
         });
 };
 
-// open modal NEW
-btn.addEventListener("click", () => {
-    console.log("ok");
+function NewOpenPopup() {
     modal.classList.add("openModal");
 
     SaveData.disabled = false;
-});
-// function NewOpenPopup() {
-//     modal.classList.add("openModal");
-
-//     SaveData.disabled = false;
-// }
+}
 
 function closePopup() {
     modal.classList.remove("openModal");
@@ -325,7 +513,7 @@ function closePopup() {
 
 // updata data
 function Save() {
-    console.log("ooo");
+
     const validInput =
         AddvalidateName() && AddvalidateEmail() && AddvalidateAddress();
 
@@ -361,9 +549,9 @@ function Save() {
 
                 // create  value add id Edit details
                 let editDataSet = dataForTable.find((item, i) => i == 0);
-                iName.value = editDataSet.name;
+                iName1.value = editDataSet.name;
 
-                iEmail.value = editDataSet.email;
+                iEmail1.value = editDataSet.email;
 
                 textarea.value = editDataSet.address.city;
             })
@@ -389,7 +577,7 @@ function Cancel() {
 }
 
 function Deletbtn(id) {
-    console.log("ok");
+   
     num = id;
     dltPupup.classList.add("Modal1");
 }
@@ -404,9 +592,9 @@ function deletConfirm() {
     });
 
     if (onEditSelect) {
-        iName.value = onEditSelect.name;
+        iName1.value = onEditSelect.name;
 
-        iEmail.value = onEditSelect.email;
+        iEmail1.value = onEditSelect.email;
 
         textarea.value = onEditSelect.address.city;
         editId = onEditSelect.id;
@@ -431,9 +619,9 @@ function editbtn(id) {
 
     editId = id;
 
-    iName.value = foundObj.name;
+    iName1.value = foundObj.name;
 
-    iEmail.value = foundObj.email;
+    iEmail1.value = foundObj.email;
 
     textarea.value = foundObj.address.city;
     EditvalidName("iName") &&
@@ -442,17 +630,18 @@ function editbtn(id) {
 }
 // Edit detailes
 
-function updateValue() {
+function updateValue(e) {
+    e.preventDefault();
     const Input =
         EditvalidName("iName") &&
         EditvalidEmail("iEmail") &&
         EditvalidAddress("textarea");
     if (Input) {
-        const foundObj = dataForTable.find((item, i) => item.id == editId);
+        const foundObject = dataForTable.find((item, i) => item.id == editId);
 
-        foundObj.name = document.getElementById("iName").value;
-        foundObj.email = document.getElementById("iEmail").value;
-        foundObj.address.city = document.getElementById("textarea").value;
+        foundObject.name = document.getElementById("iName").value;
+        foundObject.email = document.getElementById("iEmail").value;
+        foundObject.address.city = document.getElementById("textarea").value;
 
         buildTable(dataForTable);
     } else {
@@ -469,12 +658,13 @@ function updateValue() {
 
 // Reset table
 
-function ResetValue() {
+function ResetValue(e) {
+    e.preventDefault();
     const res = dataForTable.find((item) => item.id == editId);
 
-    iName.value = res.name;
+    iName1.value = res.name;
 
-    iEmail.value = res.email;
+    iEmail1.value = res.email;
 
     textarea.value = res.address.city;
 }
@@ -483,9 +673,9 @@ function ResetValue() {
 
 // Edit details validation
 
-function EditvalidName(fieldName) {
+function EditvalidName() {
     const correctway = /^[A-za-z]+$/;
-    let name = document.getElementById(fieldName).value;
+    const name = document.getElementById("iName").value;
 
     if (name === "") {
         return false;
@@ -505,8 +695,8 @@ function EditvalidName(fieldName) {
     }
 }
 
-function EditvalidEmail(fieldEmail) {
-    const Email = document.getElementById(fieldEmail).value;
+function EditvalidEmail() {
+    const Email = document.getElementById("iEmail").value;
 
     const correctways = /^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,15}$/;
     let correctEmail = Email.match(correctways);
@@ -515,24 +705,24 @@ function EditvalidEmail(fieldEmail) {
         return false;
     }
     if (Email.length < 10) {
-        EditemailErr.innerHTML = "Minimum 10 characters";
+        EditemailError.innerHTML = "Minimum 10 characters";
         return false;
     }
     if (Email.length > 50) {
-        EditemailErr.innerHTML = "Maximum 50 characters";
+        EditemailError.innerHTML = "Maximum 50 characters";
     }
 
     if (!correctEmail) {
-        EditemailErr.innerHTML = "Email is Invalid";
+        EditemailError.innerHTML = "Email is Invalid";
         return false;
     }
-    EditemailErr.innerHTML =
+    EditemailError.innerHTML =
         '<i class="fa-sharp fa-solid fa-circle-check"></i>';
     return true;
 }
 
-function EditvalidAddress(addressField) {
-    let address = document.getElementById(addressField).value;
+function EditvalidAddress() {
+    let address = document.getElementById("textarea").value;
 
     if (address === "") {
         EditAddressErr.innerHTML = "Please enter your address";
@@ -621,13 +811,13 @@ function Clearfield() {
     AddressErr.innerHTML = "";
 }
 function editFieldClear() {
-    iName.value = "";
-    iEmail.value = "";
+    iName1.value = "";
+    iEmail1.value = "";
     textarea.value = "";
 }
 function EditIconsClear() {
     EditnameErr.innerHTML = "";
-    EditemailErr.innerHTML = "";
+    EditemailError.innerHTML = "";
     EditAddressErr.innerHTML = "";
 }
 function SaveDataClear() {
